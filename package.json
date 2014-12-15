@@ -1,10 +1,12 @@
 {
   "name": "auto-replace-in-selection",
   "main": "./lib/auto-replace-in-selection",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "automatically find and replace in selection depending on whether or not you have selected text when opening the find and replace panel",
   "activationCommands": {
-    "atom-workspace": ["find-and-replace:show"]
+    "atom-workspace": [
+      "find-and-replace:show"
+    ]
   },
   "repository": "https://github.com/Kraoz/atom-auto-replace-in-selection",
   "license": "MIT",
