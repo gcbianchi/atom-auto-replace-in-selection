@@ -1,17 +1,21 @@
 {CompositeDisposable} = require 'atom'
 
-module.exports = AutoReplaceInSelection =
-  subscriptions: null
+module.exports = class AutoReplaceInSelection
+  @subscriptions: null
 
-  activate: (state) ->
+  @activate: (state) ->
     @subscriptions = new CompositeDisposable
     @subscriptions.add atom.commands.add 'atom-workspace',
       'find-and-replace:show': @find_and_replace_shown.bind @
 
-  deactivate: ->
+  @deactivate: ->
     @subscriptions.dispose()
 
-  find_and_replace_shown: ->
+  @has_selection: ->
+    selection = @fnr.findModel.editor.getSelectedBufferRange()
+    selection.start.row != selection.end.row or
+      selection.start.column != selection.end.column
+
+  @find_and_replace_shown: ->
     @fnr ||= atom.packages.loadedPackages['find-and-replace'].mainModule
-    if !!@fnr.findModel.getEditor().getSelection().getText() != @fnr.findModel.inCurrentSelection
-      @fnr.findView.toggleSelectionOption()
+    @fnr.findView.toggleSelectionOption() if @has_selection() != @fnr.findModel.inCurrentSelection
